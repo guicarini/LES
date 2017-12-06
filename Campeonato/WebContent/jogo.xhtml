@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Gerenciamento de JOGOS</title>
+</h:head>
+<h:body>
+	<h1>Gerenciamento de JOGOS</h1>
+	<p:messages/>
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputLabel value="Registro:"/>
+			<h:outputLabel value="${jogoMB.jogoAtual.rg}"/>
+			<h:outputLabel/>
+			
+			<h:outputLabel value="Fase:"/>
+			<h:inputText 	id="txtFase"
+							value="${jogoMB.jogoAtual.fase}"/>
+			<p:message for="txtFase"/>
+			
+			<h:outputLabel value="Adversario:"/>
+			<h:inputText	id="txtAdversario"
+							value="${jogoMB.jogoAtual.adversario}" />
+			<p:message for="txtAdversario"/>
+			
+			<h:outputLabel value="Data:"/>
+			<p:calendar	mode="inline"	pattern="dd/MM/yyyy"
+						id="txtData"	
+						value="${jogoMB.jogoAtual.data}" />
+			<p:message for="txtData"/>
+			
+			<h:commandButton	value="Adicionar"	rendered="${jogoMB.jogoAtual.rg == 0}"
+								action="${jogoMB.adicionar()}"/>
+			<h:commandButton	value="Atualizar"	rendered="${jogoMB.jogoAtual.rg != 0}"
+								action="${jogoMB.atualizar()}"/>								
+			<h:commandButton	value="Pesquisar"
+								action="${jogoMB.pesquisar()}"/>
+			<h:selectOneRadio value="${jogoMB.selecao}">
+				<f:selectItem itemValue="todos" itemLabel="Todos"/>
+				<f:selectItem itemValue="porfase" itemLabel="Por Fase"/>
+				<f:selectItem itemValue="pordata" itemLabel="Por Data"/>
+			</h:selectOneRadio>
+		
+		</h:panelGrid>
+		
+		<p:dataTable	id="tabela"
+						value="${jogoMB.jogos}"	
+						var="jogo"	paginator="true">
+			<p:column headerText="Registro">${jogo.rg}</p:column>
+			<p:column headerText="Fase">${jogo.fase}</p:column>
+			<p:column headerText="Adversario">${jogo.adversario}</p:column>
+			<p:column headerText="Data">${jogo.data}</p:column>
+			<p:column headerText="Ação">
+				<h:commandButton value="Remover" action="${jogoMB.remover()}">
+				</h:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
